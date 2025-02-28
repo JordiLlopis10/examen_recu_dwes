@@ -16,6 +16,11 @@
                 <span><strong>Precio: </strong>{{ i["precio"] }}</span>
                 <span><strong>Descripcion: </strong>{{ i["descripcion"] }}</span>
                 <button><a href="/anyadir_carrito/{{ i["_id"]}}">Añadir al carrito</a></button>
+                
+                {% if current_user.email == 'admin@admin.com' %}
+                    <button><a href="/edit_articulo/{{ i["_id"]}}">Update</a></button>
+                    <button><a href="/articulo/{{ i["_id"]}}">Delete</a></button>
+                {% endif %}
 
 
             </li>
