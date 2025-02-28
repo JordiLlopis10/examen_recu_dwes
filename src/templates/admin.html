@@ -6,6 +6,8 @@
 <section>
     <div>
         <h1>Panel admin</h1> 
+        <button><a href="/anyadir">Añadir articulo</a></button>
+        <button><a href="/targeta">Añadir targeta</a></button>
         <button><a href="/">Cerrar sesion</a></button>
         <button><a href="/perfil">Volver a perfil</a></button>
     </div>
@@ -23,6 +25,21 @@
             {% endfor %}
         </ul>
 
+    </div>
+    <div>
+        <h1>Articulos de la tienda</h1>
+        <ul>
+            {% for i in articulos %}
+            <li>
+                <span><strong>Nombre: </strong>{{ i["nombre"] }}</span>
+                <span><strong>Precio: </strong>{{ i["precio"] }}</span>
+                <span><strong>Descripcion: </strong>{{ i["descripcion"] }}</span>
+                <button><a href="/edit_articulo/{{ i["_id"]}}">Update</a></button>
+                <button><a href="/articulo/{{ i["_id"]}}">Delete</a></button>
+
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </section>
 

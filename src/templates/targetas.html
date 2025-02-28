@@ -12,6 +12,19 @@
         <input type="password" placeholder="cv" name="ccv">
         <button type="submit">Añadir targeta</button>
     </form>
+    <hr>
+    <div>
+        <h1>Targetas disponibles:</h1>
+        <ul>
+            {% for i in targetas %}
+            <li>
+                <span><strong>Nombre: </strong>{{ i["nombre"] }}</span>
+                <span><strong>IBAN: </strong>{{ i["IBAN"] }}</span>
+                <span><strong>ccv: </strong>{{ i["ccv"] }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 
 

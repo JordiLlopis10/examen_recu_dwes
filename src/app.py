@@ -81,14 +81,21 @@ def perfil():
 @miapp.route("/tienda", methods=["GET","POST"])
 @login_required
 def tienda():
-    if request.method == "POST":
-        nombre = request.form["nombre"]
-        precio = request.form["precio"]
-        descripcion = request.form["descripcion"]
-        if nombre and precio and descripcion:
-            db.carrito.insert_one({"nombre":nombre, "precio":precio, "descripcion":descripcion})
+    
+    articulos = db.articulos.find()
 
-    return render_template("tienda.html")
+    return render_template("tienda.html",articulos=articulos)
+
+######################### AÑADIR CARRITO #####################################
+@miapp.route("/anyadir_carrito/<string:id>")
+@login_required
+def anyadir_carrito(id):
+    
+    articulo = db.articulos.find_one({"_id":ObjectId(id)})
+  
+    db.carrito.insert_one({"nombre":articulo["nombre"], "precio":articulo["precio"], "descripcion": articulo["descripcion"]})
+    
+    return redirect(url_for("tienda"))
 
 ######################### CARRITO #####################################
 @miapp.route("/carrito", methods=["GET","POST"])
@@ -126,6 +133,7 @@ def pago():
         if nombre and IBAN and ccv:
             datos = db.targetas.find_one({"nombre":nombre, "IBAN":IBAN, "ccv":ccv})
             if datos:
+                
                 return "Exito compra"
             else:
                 return "Fallo compra"
@@ -137,17 +145,21 @@ def pago():
 @miapp.route("/targeta", methods=["GET","POST"])
 @login_required
 def targeta():
-    if request.method == "POST":
-        nombre = request.form["nombre"]
-        IBAN = request.form["IBAN"]
-        ccv = request.form["ccv"]
-        if nombre and IBAN and ccv:
-            db.targetas.insert_one({"nombre":nombre, "IBAN":IBAN, "ccv":ccv})
-            print("targeta añadida correctamente")
-        else:
-            return "faltan datos"
+    targetas = db.targetas.find()
+    if current_user.email != "admin@admin.com":
+        return "No eres admin"
+    else:
+        if request.method == "POST":
+            nombre = request.form["nombre"]
+            IBAN = request.form["IBAN"]
+            ccv = request.form["ccv"]
+            if nombre and IBAN and ccv:
+                db.targetas.insert_one({"nombre":nombre, "IBAN":IBAN, "ccv":ccv})
+                print("targeta añadida correctamente")
+            else:
+                return "faltan datos"
     
-    return render_template("targetas.html")
+    return render_template("targetas.html",targetas = targetas)
 
 ######################### LOGOUT #####################################
 @miapp.route("/logout")
@@ -164,7 +176,8 @@ def admin():
         return "No eres admin"
     else:
         users = db.users.find()
-        return render_template("admin.html", datos=users)
+        articulos = db.articulos.find()
+        return render_template("admin.html", datos=users, articulos=articulos)
     
 ######################### DELETE USER #####################################
 @miapp.route("/user/<string:id>", methods=["GET","POST"])
@@ -195,7 +208,55 @@ def edit_user(id):
         
         return render_template("edit.html", datos=datos)
     
-######################### EDIT USER #####################################
+######################### AÑADIR ARTICULO #####################################
+@miapp.route("/anyadir", methods=["GET","POST"])
+@login_required     
+def anyadir():
+    if current_user.email != "admin@admin.com":
+        return "No eres admin"
+    else:
+        if request.method == "POST":
+            nombre = request.form["nombre"]
+            precio = request.form["precio"]
+            descripcion = request.form["descripcion"]
+            if nombre and precio and descripcion:
+                db.articulos.insert_one({"nombre":nombre, "precio": precio,"descripcion":descripcion})
+                return redirect(url_for("admin"))
+            
+        
+        return render_template("anyadir.html")
+    
+######################### EDIT ARTICULO #####################################
+@miapp.route("/edit_articulo/<string:id>", methods=["GET","POST"])
+@login_required     
+def edit_articulo(id):
+    if current_user.email != "admin@admin.com":
+        return "No eres admin"
+    else:
+    
+        datos = db.articulos.find_one({"_id":ObjectId(id)})
+        if request.method == "POST":
+            nombre = request.form["nombre"]
+            precio = request.form["precio"]
+            descripcion = request.form["descripcion"]
+            if nombre and precio and descripcion:
+                db.articulos.update_one({"_id":ObjectId(id)},{"$set":{"nombre":nombre, "precio": precio,"descripcion":descripcion}})
+                return redirect(url_for("admin"))
+            
+        
+        return render_template("edit_articulo.html", datos=datos)
+    
+######################### DELETE USER #####################################
+@miapp.route("/articulo/<string:id>", methods=["GET","POST"])
+@login_required     
+def delete_articulo(id):
+    if current_user.email != "admin@admin.com":
+        return "No eres admin"
+    else:
+        db.articulos.delete_one({"_id":ObjectId(id)})
+        return redirect(url_for("admin"))
+    
+######################### 404 error #####################################
 @miapp.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404

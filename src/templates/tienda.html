@@ -1,28 +1,26 @@
 {% extends "./base.html" %}
-{% block title %}perfil{% endblock %}
+{% block title %}Tienda{% endblock %}
 
 
 {% block body %}
 <section>
     <div>
         <h1>Tienda online</h1> 
-        <button><a href="/">Cerrar sesion</a></button>
     </div>
     <div>
-        <!-- <h1>Productos</h1>
-        <div>
-            <span name="balon">Nombre: Balon</span>
-            <span name="precio_balon">Precio: 10</span>
-            <span name="descripcion_balon">Descripcion: Balon de futbol</span>
-            <button type="submit">Añadir al carro</button>
-        </div> -->
-        <form action="/tienda" method="post">
-            <input type="text" placeholder="nombre articulo" name="nombre">
-            <input type="text" placeholder="precio articulo" name="precio">
-            <input type="text" placeholder="Descripcion articulo" name="descripcion">
-            <button type="submit">Añadir al carro</button>
-        </form>
+        <h1>Articulos de la tienda</h1>
+        <ul>
+            {% for i in articulos %}
+            <li>
+                <span><strong>Nombre: </strong>{{ i["nombre"] }}</span>
+                <span><strong>Precio: </strong>{{ i["precio"] }}</span>
+                <span><strong>Descripcion: </strong>{{ i["descripcion"] }}</span>
+                <button><a href="/anyadir_carrito/{{ i["_id"]}}">Añadir al carrito</a></button>
 
+
+            </li>
+            {% endfor %}
+        </ul>
     </div>
     <hr>
     <button><a href="/carrito">Ver carrito</a></button>
