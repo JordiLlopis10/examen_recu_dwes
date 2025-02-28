@@ -6,6 +6,21 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+    <nav>
+        <ul>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('perfil') }}">Perfil</a></li>
+                <li><a href="{{ url_for('tienda') }}">Tienda</a></li>
+                <li><a href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+                {% if current_user.email == 'admin@admin.com' %}
+                    <li><a href="{{ url_for('admin') }}">Admin</a></li>
+                {% endif %}
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Registrarse</a></li>
+            {% endif %}
+        </ul>
+    </nav>
     
 
     {% block body %}{% endblock %}
