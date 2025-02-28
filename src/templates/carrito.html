@@ -1,0 +1,32 @@
+{% extends "./base.html" %}
+{% block title %}perfil{% endblock %}
+
+
+{% block body %}
+<section>
+    <div>
+        <h1>Tienda online</h1> 
+        <button><a href="/">Cerrar sesion</a></button>
+        <button><a href="/tienda">Volver a tienda</a></button>
+    </div>
+    <div>
+        <ul>
+            {% for dato in datos %}
+            <li>
+                <span><strong>Nombre: </strong>{{ dato["nombre"] }}</span>
+                <span><strong>Precio: </strong>{{ dato["precio"] }}</span>
+                <span><strong>Descripcion: </strong>{{ dato["descripcion"] }}</span>
+                <button><a href="/delete/{{ dato["_id"]}}">Delete</a></button>
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+    <hr>
+    <button><a href="/tramite">Tramitar</a></button>
+
+
+</section>
+
+
+{% endblock %}

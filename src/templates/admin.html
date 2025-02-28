@@ -1,0 +1,30 @@
+{% extends "./base.html" %}
+{% block title %}Admin{% endblock %}
+
+
+{% block body %}
+<section>
+    <div>
+        <h1>Panel admin</h1> 
+        <button><a href="/">Cerrar sesion</a></button>
+        <button><a href="/perfil">Volver a perfil</a></button>
+    </div>
+    <hr>
+    <div>
+        <h1>Usuarios</h1>
+        <ul>
+            {% for dato in datos %}
+            <li>
+                <span><strong>Nombre: </strong>{{ dato["fullname"] }}</span>
+                <span><strong>email: </strong>{{ dato["email"] }}</span>
+                <button><a href="/edit/{{ dato["_id"]}}">Update</a></button>
+                <button><a href="/user/{{ dato["_id"]}}">Delete</a></button>
+            </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+</section>
+
+
+{% endblock %}

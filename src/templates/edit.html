@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+{% block title %}Edit{% endblock %}
+{% block body %}
+<div>
+    <h1>
+        Editar usuario
+    </h1>
+
+    <form action="/edit/{{ datos["_id"] }}" method="post">
+        <input type="text" placeholder="fullname" name="fullname" value="{{ datos["fullname"] }}" required>
+        <input type="email" placeholder="email" name="email" value="{{ datos["email"] }}" required>
+        <button type="submit">Guardar</button>
+    </form>
+</div>
+
+
+{% endblock %}

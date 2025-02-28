@@ -1,0 +1,16 @@
+{% extends "./base.html" %}
+{% block title %}Login{% endblock %}
+
+
+{% block body %}
+<div>
+    <form action="/login" method="post">
+        <input type="text" placeholder="email" name="email">
+        <input type="password" placeholder="password" name="password">
+        <button type="submit">Login</button>
+    </form>
+    <p>No tienes cuenta? <a href="/register">Register</a></p>
+</div>
+
+
+{% endblock %}

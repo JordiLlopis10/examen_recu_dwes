@@ -1,0 +1,18 @@
+{% extends "./base.html" %}
+{% block title %}Pago{% endblock %}
+
+
+{% block body %}
+<div>
+
+    <form action="/targeta" method="post">
+        <h1>Rellene los datos para añadir la targeta: </h1>
+        <input type="text" placeholder="nombre completo" name="nombre">
+        <input type="text" placeholder="IBAN" name="IBAN">
+        <input type="password" placeholder="cv" name="ccv">
+        <button type="submit">Añadir targeta</button>
+    </form>
+</div>
+
+
+{% endblock %}

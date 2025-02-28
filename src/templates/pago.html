@@ -1,0 +1,19 @@
+{% extends "./base.html" %}
+{% block title %}Pago{% endblock %}
+
+
+{% block body %}
+<div>
+
+    <form action="/pago" method="post">
+        <h1>Rellene los datos de la targeta: </h1>
+        <input type="text" placeholder="nombre completo" name="nombre">
+        <input type="text" placeholder="IBAN" name="IBAN">
+        <input type="password" placeholder="cv" name="ccv">
+        <button type="submit">Pagar</button>
+    </form>
+    <p>No esta conforme? <a href="/tramite">Volver atras</a></p>
+</div>
+
+
+{% endblock %}
