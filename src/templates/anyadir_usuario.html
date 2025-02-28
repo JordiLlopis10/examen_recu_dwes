@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+{% block title %}Register{% endblock %}
+
+
+{% block body %}
+<div>
+    <h1>Registrar usuario desde el admin</h1>
+    <form action="/anyadir_usuario" method="post">
+        <input type="text" placeholder="fullname" name="fullname" required>
+        <input type="email" placeholder="email" name="email" required>
+        <input type="password" placeholder="password" name="password" required>
+        <button type="submit">Registrarse</button>
+    </form>
+</div>
+
+
+{% endblock %}

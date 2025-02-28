@@ -256,6 +256,27 @@ def delete_articulo(id):
         db.articulos.delete_one({"_id":ObjectId(id)})
         return redirect(url_for("admin"))
     
+######################### AÑADIR USER #####################################
+@miapp.route("/anyadir_usuario", methods=["GET","POST"])
+def register_admin():
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+        fullname = request.form["fullname"]
+        comprovar_mail = db.users.find_one({"email":email})
+        if comprovar_mail:
+            return "Email ya en uso"
+        if email and password and fullname:
+            hashed_password = generate_password_hash(password)
+            db.users.insert_one({"email":email, "password":hashed_password,"fullname":fullname})        
+            return redirect(url_for("admin"))
+
+        
+    return render_template("anyadir_usuario.html")
+
+    
+    
+    
 ######################### 404 error #####################################
 @miapp.errorhandler(404)
 def page_not_found(e):
